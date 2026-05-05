@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+
+  --color-background: #070707;
+  --color-foreground: #ebe5e5;
+  --color-muted: #c2c0c0;
+  --color-primary: #af0000;
+  --color-primary-hover: #da0404;
+  --color-primary-active: #850202;
+  --color-secondary: #262626;
+  --color-secondary-hover: #3d3d3d;
+  --color-secondary-active: #1d1c1c;
+  --color-accent: #ff5900;
+}
+
+@layer base {
+    html {
+        @apply font-inter bg-background text-foreground 
+    }
+
+    body {
+        @apply m-0 min-h-screen antialiased
+    }
+}
