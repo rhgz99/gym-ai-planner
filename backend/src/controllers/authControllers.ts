@@ -2,13 +2,21 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { type Request, type Response } from "express";
 import { prisma } from "../lib/prisma";
+import { AuthResponse, ErrorResponse, LoginBody, RegisterBody } from "../../types";
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (
+  req: Request<{}, {}, RegisterBody>,
+  res: Response<AuthResponse | ErrorResponse>,
+) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !confirmPassword) {
       return res.status(400).json({ message: "Required fields are missing" });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
     }
 
     const existedEmail = await prisma.user.findUnique({
@@ -33,8 +41,14 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const JWT_SECRET = process.env.JWT_SECRET!;
     const token = jwt.sign({ userId: newUser.user_id }, JWT_SECRET, {
-      expiresIn: "1hr",
+      expiresIn: "1h",
     });
+
+    const userData = {
+      id: newUser.user_id,
+      email: newUser.email,
+      isAdmin: newUser.isAdmin,
+    };
 
     res
       .cookie("accessToken", token, {
@@ -43,13 +57,14 @@ export const registerUser = async (req: Request, res: Response) => {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       })
       .status(201)
-      .json({ newUser: newUser });
+      .json({ user: userData });
   } catch (error) {
-    res.status(500).json({ message: "Register failed", error });
+    console.log(error);
+    res.status(500).json({ message: "Register failed" });
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request<{}, {}, LoginBody>, res: Response<AuthResponse | ErrorResponse>) => {
   try {
     const { email, password } = req.body;
 
@@ -65,7 +80,7 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Email or Password are invalid" });
     }
 
-    const passwordIsValid = bcrypt.compare(password, user.password);
+    const passwordIsValid = await bcrypt.compare(password, user.password);
 
     if (!passwordIsValid) {
       return res.status(401).json({ message: "Email or password are invalid" });
@@ -79,9 +94,9 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const JWT_SECRET = process.env.JWT_SECRET!;
     const token = jwt.sign(
-      { userId: user.user_id, email: user.email },
+      { userId: user.user_id},
       JWT_SECRET,
-      { expiresIn: "1hr" },
+      { expiresIn: "1h" },
     );
 
     res
@@ -92,8 +107,9 @@ export const loginUser = async (req: Request, res: Response) => {
         maxAge: 60 * 60 * 1000,
       })
       .status(200)
-      .json(userData);
+      .json({user: userData});
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Login Failed" });
   }
 };
@@ -109,6 +125,7 @@ export const logoutUser = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Logout sucessfully" });
   } catch (error) {
-    res.status(500).json({ mssage: "Logout failed" });
+    console.log(error)
+    res.status(500).json({ message: "Logout failed" });
   }
 };
