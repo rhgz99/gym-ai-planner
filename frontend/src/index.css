@@ -5,22 +5,27 @@
 
   --color-background: #070707;
   --color-foreground: #ebe5e5;
+  --color-border: #ebe5e51a;
   --color-muted: #c2c0c0;
   --color-primary: #af0000;
-  --color-primary-hover: #da0404;
+  --color-primary-hover: #d10303;
   --color-primary-active: #850202;
-  --color-secondary: #262626;
-  --color-secondary-hover: #3d3d3d;
+  --color-secondary: #333333;
+  --color-secondary-hover: #5e5d5d;
   --color-secondary-active: #1d1c1c;
   --color-accent: #ff5900;
 }
 
 @layer base {
-    html {
-        @apply font-inter bg-background text-foreground 
-    }
+  html {
+    @apply font-inter bg-background text-foreground;
+  }
 
-    body {
-        @apply m-0 min-h-screen antialiased
-    }
+  body {
+    @apply m-0 min-h-screen antialiased;
+  }
+  
+  button {
+    @apply px-4 py-2;
+  }
 }
