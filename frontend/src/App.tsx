@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Account from "./pages/Account";
 import Profile from "./pages/Profile";
 import Onboarding from "./pages/Onboarding";
-import Register from "./pages/register";
+import Register from "./pages/Register";
 import Login from "./pages/Login";
 
 const App = () => {

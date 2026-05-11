@@ -10,12 +10,13 @@ const LoginForm = () => {
     reset,
   } = useForm({ mode: "onChange" });
   return (
-    <form className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 md:mx-auto border border-border rounded-lg text-">
+    <form className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 pt-10 md:mx-auto border border-border rounded-lg text-">
       <Input
         type="text"
         id="email"
         label="Email"
         placeholder="example@example.com"
+        autoComplete="email"
         error={errors.email?.message as string}
         {...register("email", {
           required: "Email is required",
@@ -27,6 +28,7 @@ const LoginForm = () => {
         id="password"
         label="Password"
         placeholder="Password"
+        autoComplete="current-password"
         error={errors.password?.message as string}
         {...register("password", {
           required: "Password is required ",
