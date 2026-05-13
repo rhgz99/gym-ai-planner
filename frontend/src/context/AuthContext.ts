@@ -1,0 +1,10 @@
+import { createContext } from "react";
+import type { AuthUser } from "../types/auth";
+
+export type AuthContextType = {
+  user: AuthUser | null;
+  loading: boolean;
+  error: unknown | null;
+};
+
+export const AuthContext = createContext<AuthContextType | null>(null);

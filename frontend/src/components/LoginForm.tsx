@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Button, Input } from "./ui";
 import { Link } from "react-router-dom";
+import { loginService } from "../services/authServices";
+import type { LoginData } from "../types/auth";
 
 const LoginForm = () => {
   const {
@@ -8,9 +10,21 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ mode: "onChange" });
+  } = useForm<LoginData>({ mode: "onChange" });
+
+  const onSubmit = async (data: LoginData)=> {
+    try {
+      const response = await loginService(data)
+      if (response) {
+        reset()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
   return (
-    <form className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 pt-10 md:mx-auto border border-border rounded-lg text-">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 pt-10 md:mx-auto border border-border rounded-lg text-">
       <Input
         type="text"
         id="email"

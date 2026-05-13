@@ -1,4 +1,4 @@
-export type User = {
+export type UserData = {
   email: string;
   password: string;
 };
@@ -9,8 +9,11 @@ export type RegisterData = {
   confirmPassword: string;
 };
 
-export type LoginData = User;
+export type LoginData = UserData;
 
-export type AuthResponse = {
-  user: User;
+export type AuthUser = {
+  id: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: string;
 };

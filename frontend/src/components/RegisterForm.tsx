@@ -19,7 +19,10 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (data: RegisterData) => {
-    const response = await registerService(data, reset);
+    const response = await registerService(data);
+    if(response) {
+      reset()
+    }
   };
   return (
     <form

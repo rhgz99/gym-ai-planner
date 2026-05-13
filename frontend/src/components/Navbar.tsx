@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui";
 import Logo from "../assets/logo.svg?react";
+import { useAuth } from "../hooks/useAuth";
 
 const Navbar = () => {
-  const userLogin = false;
+  const { user } = useAuth();
 
   return (
     <header className="w-full fixed top-0 left-0 bg-background/80 backdrop-blur-md border-b border-border z-10">
@@ -19,10 +20,10 @@ const Navbar = () => {
           <Logo className="size-8 text-primary group-hover:text-foreground" />
         </Link>
         <nav className="flex gap-4 ">
-          {userLogin ? (
+          {user ? (
             <>
               <Link to="/logout">
-                <Button variant="secondary" >Sign Out</Button>
+                <Button variant="secondary">Sign Out</Button>
               </Link>
               <Link to="/profile">
                 <Button>My plan</Button>

@@ -1,33 +1,41 @@
-import axios from "axios"
-import type { UseFormReset } from "react-hook-form";
-import type { AuthResponse, RegisterData } from "../types/auth";
+import axios from "axios";
+import type { RegisterData, LoginData } from "../types/auth";
 
 const API_URL = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL + "/auth",
-  withCredentials: true
+  withCredentials: true,
 });
 
-export const registerService = async (
-  data: RegisterData,
-  reset: UseFormReset<RegisterData>,
-): Promise<{ success: boolean; data?: AuthResponse }> => {
+export const getUserService = async () => {
   try {
-    const response = await API_URL.post("/register", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    const response = await API_URL.get("/user");
 
-    if (response.status === 201) {
-      reset();
-    }
-
-    return {
-      success: true,
-    };
+    return response.data;
   } catch (error) {
-    console.log(error)
+    console.error(error);
+  }
+};
+
+export const loginService = async (data: LoginData) => {
+  try {
+    const response = await API_URL.post("/login", data);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+    };
+  }
+};
+
+export const registerService = async (data: RegisterData) => {
+  try {
+    const response = await API_URL.post("/register", data);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
     return {
       success: false,
     };
