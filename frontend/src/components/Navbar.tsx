@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui";
 import Logo from "../assets/logo.svg?react";
 import { useAuth } from "../hooks/useAuth";
+import { logoutService } from "../services/authServices";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, setUser } = useAuth();
+  const handleLogOut = async () => {
+    const response = await logoutService();
+    if (response.success) {
+      setUser(null);
+      navigate("/", { replace: true });
+    }
+  };
 
   return (
     <header className="w-full fixed top-0 left-0 bg-background/80 backdrop-blur-md border-b border-border z-10">
@@ -22,9 +31,10 @@ const Navbar = () => {
         <nav className="flex gap-4 ">
           {user ? (
             <>
-              <Link to="/logout">
-                <Button variant="secondary">Sign Out</Button>
-              </Link>
+              <Button variant="secondary" onClick={() => handleLogOut()}>
+                Sign Out
+              </Button>
+
               <Link to="/profile">
                 <Button>My plan</Button>
               </Link>

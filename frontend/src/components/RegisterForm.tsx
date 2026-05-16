@@ -1,10 +1,15 @@
 import { useForm, useWatch } from "react-hook-form";
 import { Button, Input } from "./ui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerService } from "../services/authServices";
 import type { RegisterData } from "../types/auth";
+import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const { setUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -20,8 +25,13 @@ const RegisterForm = () => {
 
   const onSubmit = async (data: RegisterData) => {
     const response = await registerService(data);
-    if(response) {
-      reset()
+    reset();
+
+    if (response.success) {
+      setUser(response.data.user);
+      navigate("/", { replace: true });
+    } else {
+      setError(response.message);
     }
   };
   return (
@@ -82,6 +92,7 @@ const RegisterForm = () => {
         })}
       />
       <Button>Sign Up</Button>
+      {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="text-foreground text-center flex justify-center items-center gap-2">
         <p className="text-sm">Already have an account?</p>
         <Link
