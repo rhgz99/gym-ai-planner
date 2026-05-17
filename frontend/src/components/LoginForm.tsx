@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import { Button, Input } from "./ui";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { loginService } from "../services/authServices";
 import type { LoginData } from "../types/auth";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const { setUser } = useAuth();
   const [error, setError] = useState(null);
   const {
@@ -21,18 +20,20 @@ const LoginForm = () => {
     const response = await loginService(data);
     reset();
     if (response.success) {
-      setUser(response.data.user)
-      navigate("/", { replace: true });
+      setUser(response.data.user);
     } else {
       setError(response.message);
     }
   };
 
+  
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 pt-10 md:mx-auto border border-border rounded-lg text-"
+      className="flex flex-col gap-8 max-w-md mx-6 mt-20 p-8 lg:p-10  md:mx-auto border border-border rounded-lg text-foreground"
     >
+      
       <Input
         type="text"
         id="email"
@@ -56,7 +57,7 @@ const LoginForm = () => {
           required: "Password is required ",
         })}
       />
-      <Button>Sign In</Button>
+      <Button className="text-lg" variant="primary">Sign In</Button>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="text-foreground text-center flex justify-center items-center gap-2">
         <p className="text-sm">Don't you have an account?</p>

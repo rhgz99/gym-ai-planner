@@ -1,13 +1,12 @@
 import { useForm, useWatch } from "react-hook-form";
 import { Button, Input } from "./ui";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { registerService } from "../services/authServices";
 import type { RegisterData } from "../types/auth";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const { setUser } = useAuth();
   const {
@@ -29,15 +28,15 @@ const RegisterForm = () => {
 
     if (response.success) {
       setUser(response.data.user);
-      navigate("/", { replace: true });
     } else {
       setError(response.message);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-w-100 mx-6 mt-8 p-8 pt-10 md:mx-auto border border-border rounded-lg text-"
+      className="flex flex-col gap-8 max-w-md mx-6 mt-20 p-8 lg:p-10  md:mx-auto border border-border rounded-lg text-foreground"
     >
       <Input
         type="text"
@@ -91,7 +90,9 @@ const RegisterForm = () => {
           validate: (value) => value === password || "Password do not match",
         })}
       />
-      <Button>Sign Up</Button>
+      <Button className="text-lg" variant="primary">
+        Sign Up
+      </Button>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="text-foreground text-center flex justify-center items-center gap-2">
         <p className="text-sm">Already have an account?</p>

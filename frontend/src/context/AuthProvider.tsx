@@ -11,8 +11,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        setLoading(true);
-
         const response = await getUserService();
 
         if (response && response.user) {
@@ -30,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     getUser();
   }, []);
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, error }}>
+    <AuthContext.Provider value={{ user, setUser, loading, setLoading, error }}>
       {children}
     </AuthContext.Provider>
   );

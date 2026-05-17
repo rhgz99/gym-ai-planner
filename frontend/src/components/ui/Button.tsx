@@ -11,7 +11,7 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const baseStyles =
-    "rounded-lg px-4 py-2 font-bold  duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-foreground";
+    "rounded-lg px-5 py-3 font-bold  duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-foreground";
 
   const variants = {
     primary: "bg-primary hover:bg-primary-hover active:bg-primary-active",

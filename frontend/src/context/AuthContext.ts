@@ -5,6 +5,7 @@ export type AuthContextType = {
   user: AuthUser | null;
   setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
   loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   error: unknown | null;
 };
 
