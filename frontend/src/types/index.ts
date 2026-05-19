@@ -5,4 +5,5 @@ export type QuestionnaireData = {
   selectedGoal: string;
   selectedSplit: string;
   sessionDuration: string;
+  injuries?: string;
 };

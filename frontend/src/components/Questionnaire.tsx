@@ -23,7 +23,7 @@ const Questionnaire = () => {
   const experienceOptions = [
     { value: "beginner", option: "Beginner (0-1 years)" },
     { value: "intermediate", option: "Intermediate(1-3 years)" },
-    { value: "advanced", option: "Advance(3-5 years)" },
+    { value: "advanced", option: "Advanced (3-5 years)" },
     { value: "athlete", option: "Athlete(5+ years)" },
   ];
 
@@ -113,6 +113,17 @@ const Questionnaire = () => {
         options={equipmentOptions}
         {...register("equipmentAvailable")}
       />
+      <div className="flex flex-col gap-2">
+        <label htmlFor="injuries">
+          Tell me about any injuries you have. (Optional)
+        </label>
+        <textarea
+          id="injuries"
+          className="bg-foreground  text-background placeholder-gray-500 w-full h-32 py-3 px-4 rounded outline-accent focus:outline-2 "
+          placeholder="e.g., knee pain, shoulder injury."
+          {...register('injuries')}
+        />
+      </div>
       <Button type="submit" variant="primary" className="text-lg">
         Generate your plan
       </Button>
